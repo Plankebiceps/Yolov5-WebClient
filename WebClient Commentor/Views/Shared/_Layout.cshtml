@@ -32,41 +32,7 @@
     <div class="container body-content">
         <h2> Cars </h2>
         <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CarCount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CarId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.currentDate)
-                </th>
-            </tr>
-            @if (Model != null)
-            {
-                foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CarCount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CarId)
-                        </td>
-                        <td class="secs">
-                            @Html.DisplayFor(modelItem => item.currentDate)
-                        </td>
-                        
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="5">No data retrieved!</td>
-                </tr>
-            }
+            
         </table>
 
         @RenderBody()

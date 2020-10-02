@@ -20,7 +20,7 @@ namespace WebClient_Commentor.DB
             List<Cars> foundCars = null;
             Cars readCars = null;
 
-            string queryString = "select carid, caramount, currentdate, from Cars";
+            string queryString = "select Cars.carid, Cars.caramount, Dates.CurrentDate from Cars Inner Join Dates ON Cars.DateId=Dates.DateId";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -50,11 +50,11 @@ namespace WebClient_Commentor.DB
             Cars foundCars;
             int tempCarId;
             int tempCarCount;
-            DateTime tempcurrentdate;
+            String tempcurrentdate;
 
             tempCarId = carsReader.GetInt32(carsReader.GetOrdinal("CarId"));
             tempCarCount = carsReader.GetInt32(carsReader.GetOrdinal("CarAmount"));
-            tempcurrentdate = carsReader.GetDateTime(carsReader.GetOrdinal("currentdate"));
+            tempcurrentdate = carsReader.GetString(carsReader.GetOrdinal("CurrentDate"));
 
             foundCars = new Cars(tempCarId, tempCarCount, tempcurrentdate);
             return foundCars;

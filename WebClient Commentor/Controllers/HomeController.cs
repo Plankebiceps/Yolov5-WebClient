@@ -10,10 +10,7 @@ namespace WebClient_Commentor.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
+        
 
         public ActionResult About()
         {
@@ -29,7 +26,7 @@ namespace WebClient_Commentor.Controllers
             return View();
         }
     
-        public ActionResult Cars()
+        public ActionResult Index()
         {
 
             DBacessCars dbcars = new DBacessCars();
