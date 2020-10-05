@@ -125,8 +125,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GoogleChart.aspx.cs">
+      <DependentUpon>GoogleChart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GoogleChart.aspx.designer.cs">
+      <DependentUpon>GoogleChart.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Cars.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sites.Master.cs">
+      <DependentUpon>Sites.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sites.Master.designer.cs">
+      <DependentUpon>Sites.Master</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -137,6 +151,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="GoogleChart.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -164,6 +179,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Sites.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
