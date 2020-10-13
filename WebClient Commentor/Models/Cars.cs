@@ -12,12 +12,12 @@ namespace WebClient_Commentor.Models
     public String currentDate { get; set; }
     public String currentHour { get; set; }
 
-    public Cars(int carId, int carCount, String currentdate)
+    public Cars(int carId, int carCount, String currentdate, String currenthour)
         {
             CarId = carId;
             CarCount = carCount;
             currentDate = currentdate;
-
+            currentHour = currenthour;
         }
 
         public Cars()

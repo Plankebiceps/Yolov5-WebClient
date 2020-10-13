@@ -125,13 +125,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="GoogleChart.aspx.cs">
-      <DependentUpon>GoogleChart.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="GoogleChart.aspx.designer.cs">
-      <DependentUpon>GoogleChart.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Models\Cars.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sites.Master.cs">
@@ -151,7 +144,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="GoogleChart.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />

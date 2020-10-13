@@ -31,9 +31,44 @@ namespace WebClient_Commentor.Controllers
 
             DBacessCars dbcars = new DBacessCars();
             List<Cars> carsToDisplay = dbcars.getAllCars();
+            Dashboard();
             
             return View(carsToDisplay);
         }
-    
+
+        public ActionResult GetList(string Start, string End)
+        {
+            DBacessCars dbcars = new DBacessCars();
+            List<Cars> cars = dbcars.getSortedCars("10", "13");
+            return PartialView(@"~/Views/Home/Index.cshtml", cars);
+        }
+
+        public ActionResult Dashboard()
+        {
+            DBacessCars dbcars = new DBacessCars();
+
+            List<Cars> cars = dbcars.getAllCars();
+            //List<Car> cars = dbcars.getSortedCars("10", "13");
+            List<String> Hours = new List<String>();
+            var CarCount = cars.Select(x => x.CarCount).Distinct();
+            var CurrentHour = cars.Select(x => x.currentHour).Distinct();
+            var CurrentDate = cars[0].currentDate;
+            int Amount = 0;
+
+            foreach (var item in CurrentHour)
+            {
+                Hours.Add(item + ":00");
+                Amount++;
+            }
+
+            ViewBag.CARCOUNT = CarCount;
+            ViewBag.CURRENTHOUR = Hours;
+            ViewBag.CURRENTDATE = CurrentDate;
+            ViewBag.AMOUNT = Amount;
+
+            return View();
+
+        }
+
     }
 }
