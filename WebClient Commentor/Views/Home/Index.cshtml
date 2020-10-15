@@ -25,13 +25,11 @@
         Chart.defaults.global.defaultFontSize = 18;
         Chart.defaults.global.defaultFontColor = '#777';
 
-        var CurrentHour = @Html.Raw(Json.Encode(ViewBag.CURRENTHOUR));
         var CurrentDate =@Html.Raw(Json.Encode(ViewBag.CURRENTDATE));
-        var CarCount =@Html.Raw(Json.Encode(ViewBag.CARCOUNT));
         var Amount = @Html.Raw(Json.Encode(ViewBag.AMOUNT));
 
         let massPopChart = new Chart(myChart, {
-            type: 'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+            type: 'horizontalBar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
             data: {
                 labels: @Html.Raw(Json.Encode(ViewBag.CURRENTHOUR)),
                 datasets: [{
@@ -80,19 +78,47 @@
             }
         });
 
-        function loop(chart, index) {
+        function loop(chart, index, method) {
+            var countSelect;
+            var hourSelect;
+            var str = document.getElementById("text1").value;
+            var str2 = document.getElementById("text2").value;
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                url: '/Home/'+ method +'',
+                data: { start: str, end: str2 },
+                success: function (Data) {
+                    count = Data.countSelect;
+                    hours = Data.hourSelect;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+            countSelect = count;
+            hourSelect = hours;
             var Amount = index;
-            while (Amount != -1)
-            {
+            while (Amount != -1) {
                 removeData(chart, Amount);
                 Amount--;
             }
-            var str = document.getElementById("text1").value;
-            var str2 = document.getElementById("text2").value;
-            addData(chart, 2, 2);
-            addData(chart, 3, 3);
-            addData(chart, 4, 4);
-            addData(chart, 5, 5);
+
+            var count = Object.keys(hourSelect).length;
+
+            var Amount2 = 0;
+            while (Amount2 != count) {
+                addData(chart, Amount2, hourSelect, countSelect);
+                Amount2++;
+            }
+        }
+
+        function addData(chart, index, table1, table2) {
+            chart.data.labels.push(table1[index]);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(table2[index]);
+            });
+            chart.update();
         }
 
         function removeData(chart, index) {
@@ -100,22 +126,10 @@
             chart.data.datasets[0].data.splice(index, 1);
             chart.update();
         }
-
-        function addData(chart, Hour, Count) {
-            chart.data.labels.push(CurrentHour[Hour]);
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.push(CarCount[Count]);
-            });
-            chart.update();
-        }
-
     </script>
-
-
-
     <input id="text1" placeholder="Start Time">
     <br><br>
     <input id="text2" placeholder="Slut Time">
-    <input type="button" value="Sorter" onclick="loop(massPopChart, Amount)">
+    <input type="button" value="Sorter" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">
 </body>
 </html>

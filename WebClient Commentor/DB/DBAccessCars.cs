@@ -7,20 +7,21 @@ using System.Data.SqlClient;
 
 namespace WebClient_Commentor.DB
 {
-    public class DBacessCars
+    public class DBAccessCars
     {
         readonly string connectionString;
 
-        public DBacessCars() {
+        public DBAccessCars()
+        {
             connectionString = "data Source=.; database=CommentorDB; integrated security=true";
-}
+        }
 
         public List<Cars> getAllCars()
         {
             List<Cars> foundCars = null;
             Cars readCars = null;
 
-            string queryString = "select Cars.carid, Cars.caramount, Dates.CurrentDate, Hours.HourId from Cars Inner Join Dates ON Cars.DateId=Dates.DateId Inner Join Hours ON Cars.HourId=Hours.HourId";
+            string queryString = "SELECT Cars.CarId, Cars.CarAmount, Dates.CurrentDate, Hours.HourId from Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours ON Cars.HourId=Hours.HourId";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -37,9 +38,7 @@ namespace WebClient_Commentor.DB
                         readCars = GetCarsFromReader(carsReader);
                         foundCars.Add(readCars);
                     }
-
                 }
-
             }
             return foundCars;
         }
@@ -69,9 +68,7 @@ namespace WebClient_Commentor.DB
                         readCars = GetCarsFromReader(carsReader);
                         foundCars.Add(readCars);
                     }
-
                 }
-
             }
             return foundCars;
         }
@@ -93,8 +90,6 @@ namespace WebClient_Commentor.DB
             foundCars = new Cars(tempCarId, tempCarCount, tempcurrentdate, tempcurrenthour);
             return foundCars;
         }
-    
-    
     
     }
 }
