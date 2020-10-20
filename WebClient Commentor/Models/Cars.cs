@@ -9,15 +9,24 @@ namespace WebClient_Commentor.Models
     {
     public int CarId { get; set; }
     public int CarCount { get; set; }
-    public String currentDate { get; set; }
-    public String currentHour { get; set; }
+    public string CurrentDate { get; set; }
+    public string CurrentHour { get; set; }
+    public int DateId { get; set; }
 
-    public Cars(int carId, int carCount, String currentdate, String currenthour)
+    public Cars(int carId, int carCount, string currentdate, string currenthour)
         {
             CarId = carId;
             CarCount = carCount;
-            currentDate = currentdate;
-            currentHour = currenthour;
+            CurrentDate = currentdate;
+            CurrentHour = currenthour;
+        }
+
+        public Cars(int carCount, string currentdate, string currentHour, int dateId)
+        {
+            CarCount = carCount;
+            CurrentDate = currentdate;
+            CurrentHour = currentHour;
+            DateId = dateId;
         }
 
         public Cars()

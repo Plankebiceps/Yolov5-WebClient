@@ -83,21 +83,26 @@
             var hourSelect;
             var str = document.getElementById("text1").value;
             var str2 = document.getElementById("text2").value;
+            var str3 = document.getElementById("text3").value;
+            var str4 = document.getElementById("text4").value;
             $.ajax({
                 type: 'GET',
                 dataType: 'json',
                 async: false,
                 url: '/Home/'+ method +'',
-                data: { start: str, end: str2 },
+                data: { startHour: str, endHour: str2, startDate: str3, endDate: str4 },
                 success: function (Data) {
                     count = Data.countSelect;
                     hours = Data.hourSelect;
+                    days = Data.daySelect
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                 }
             });
+
             countSelect = count;
             hourSelect = hours;
+            daySelect = days;
             var Amount = index;
             while (Amount != -1) {
                 removeData(chart, Amount);
@@ -108,7 +113,13 @@
 
             var Amount2 = 0;
             while (Amount2 != count) {
-                addData(chart, Amount2, hourSelect, countSelect);
+                addData(chart, Amount2, hourSelect, countSelect, daySelect);
+                Amount2++;
+            }
+
+            var Amount3 = 0;
+            while (Amount2 != count) {
+                addData2(chart, Amount2, Amount3, hourSelect, countselect, daySelect);
                 Amount2++;
             }
         }
@@ -121,15 +132,57 @@
             chart.update();
         }
 
+        function addData2(chart, index, table3, table4) {
+            chart.data.labels.push(table3[index]);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(table4[index]);
+            })
+            chart.update();
+        }
+
         function removeData(chart, index) {
             chart.data.labels.splice(index, 1);
             chart.data.datasets[0].data.splice(index, 1);
             chart.update();
         }
+
     </script>
-    <input id="text1" placeholder="Start Time">
-    <br><br>
-    <input id="text2" placeholder="Slut Time">
-    <input type="button" value="Sorter" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">
+    <style type="text/css">
+        .centerDiv {
+            width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+    <div class="centerDiv" style="width: 100%; display: table">
+        <div style="display: table-row">
+            <div style="width: 350px; display: table-cell;">
+                <input id="text1" placeholder="Start Time">
+                <br />
+                <input id="text2" placeholder="Slut Time">
+                <br />
+                <br>
+                <input type="button" value="Sorter Time" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">
+                <br><br>
+            </div>
+            <div style="width: 350px; display: table-cell;">
+                <input id="text3" placeholder="Start Dato" />
+                <br />
+                <input id="text4" placeholder="Slut Dato" />
+                <br />
+                <br>
+                <input type="button" value="Sorter Dato" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
+                <br />
+                <input type="button" value="Sorter Dato & timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
+                <br>
+            </div>
+            <div style="width: 350px; display: table-cell;">
+                <input type="text" id="txtDelete" name="txtDelete" placeholder="Indtast ID for at slette" />
+                <br />
+                <br>
+                <input type="button" value="Slet" id="btnSlet"
+                       onclick="location.href='@Url.Action("DeleteFromDb", "Home")?deleteText=' + document.getElementById('txtDelete').value; return false;" />
+            </div>
+        </div>
+    </div>
 </body>
 </html>

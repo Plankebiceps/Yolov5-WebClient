@@ -37,31 +37,40 @@ namespace WebClient_Commentor.Controllers
             return View(carsToDisplay);
         }
 
-        public JsonResult SortBetweenHours(string start, string end)
+        public JsonResult SortBetweenHours(string startHour, string endHour)
         {
-            List<Cars> cars = dbCars.getSortedCars(start, end);
+            List<Cars> cars = dbCars.getSortedCarsHour(startHour, endHour);
             IEnumerable<int> selectCount = SelectCarCount(cars);
             IEnumerable<string> selectHour = SelectCurrentHours(cars);
             return Json(new { countSelect = selectCount, hourSelect = selectHour }, JsonRequestBehavior.AllowGet);
         }
 
-        /*
-        public JsonResult SortBetweenDays(start, end)
+        public JsonResult SortBetweenDays(string startDate, string endDate)
         {
-            List<Cars> cars = dbCars.getSortedCars(start, end);
+            List<Cars> cars = dbCars.getSortedCarsDay(startDate, endDate);
             IEnumerable<int> selectCount = SelectCarCount(cars);
-            IEnumerable<string> selectDay = 
+            IEnumerable<string> selectHour = SelectCurrentHours(cars);
+            IEnumerable<string> selectDay = SelectCurrentDays(cars);
+            return Json(new { countSelect = selectCount, hourSelect = selectHour, daySelect = selectDay }, JsonRequestBehavior.AllowGet);
         }
-        */
 
-
-        /*
-        public list<cars> sortbetweenhours(string start, string end)
+        public JsonResult SortBetweenDaysAndHours(string startHour, string endHour, string startDate, string endDate)
         {
-            list<cars> cars = dbcars.getsortedcars(start, end);
-            return cars;
+            List<Cars> cars = dbCars.getSortedCarsDayAndHours(startHour, endHour, startDate, endDate);
+            IEnumerable<int> selectCount = SelectCarCount(cars);
+            IEnumerable<string> selectHour = SelectCurrentHours(cars);
+            IEnumerable<string> selectDay = SelectCurrentDays(cars);
+            return Json(new { countSelect = selectCount, hourSelect = selectHour, daySelect = selectDay }, JsonRequestBehavior.AllowGet);
         }
-        */
+
+        public ActionResult DeleteFromDb(string deleteText = "")
+        {
+            int toParse = Int32.Parse(deleteText);
+            DBAccessCars dbcars = new DBAccessCars();
+            dbcars.DeleteFromDB(toParse);
+
+            return RedirectToAction("Index");
+        }
 
         public IEnumerable<int> SelectCarCount(List<Cars> cars)
         {
@@ -71,8 +80,8 @@ namespace WebClient_Commentor.Controllers
 
         public IEnumerable<string> SelectCurrentHours(List<Cars> cars)
         {
-            List<string> CurrentHour = cars.Select(x => x.currentHour).ToList();
-            List<string> CurrentDate = cars.Select(x => x.currentDate).ToList();
+            List<string> CurrentHour = cars.Select(x => x.CurrentHour).ToList();
+            List<string> CurrentDate = cars.Select(x => x.CurrentDate).ToList();
             IEnumerable<string> HourAndDate = new List<string>();
 
             int index = 0;
@@ -90,44 +99,66 @@ namespace WebClient_Commentor.Controllers
 
         public IEnumerable<string> SelectCurrentDays(List<Cars> cars)
         {
-            IEnumerable<string> CurrentDate = cars.Select(x => x.currentDate);
-            return CurrentDate;
+            List<string> CurrentHour = cars.Select(x => x.CurrentHour).ToList();
+            List<string> CurrentDate = cars.Select(x => x.CurrentDate).ToList();
+            IEnumerable<string> HourAndDate = new List<string>();
+
+            int index = 0;
+            while (index != CurrentDate.Count())
+            {
+                string hour = CurrentHour[index];
+                string date = CurrentDate[index];
+                string finalResult = "Kl: " + hour + ":00" + " - " + "Dato: " + date;
+                HourAndDate = HourAndDate.Concat(new[] { finalResult });
+                index++;
+            }
+            return HourAndDate;
         }
 
         public ActionResult Dashboard()
         {
+            IEnumerable<int> CarCount = null;
+            IEnumerable<string> CurrentHour = null;
+            string CurrentDate = null;
             DBAccessCars dbcars = new DBAccessCars();
 
-            List<Cars> cars = dbcars.getAllCars();
-            //List<Car> cars = dbcars.getSortedCars("10", "13");
+            List<Cars> carsByDate = dbcars.GetAllCarsByLatestDate();
+            List<Cars> carsBy7Latest = dbcars.Get7LatestCars();
             List<String> Hours = new List<String>();
-
-            /*
-            var CarCount = cars.OrderBy(x => x.CarCount);
-            var CurrentHour = cars.OrderBy(x => x.currentHour);
-            */
 
             //måske til senere.
             //var CarCount = cars.Select(x => x.CarCount).OrderBy(x => x).ToArray()
-
-            var CarCount = SelectCarCount(cars);
-            var CurrentHour = SelectCurrentHours(cars);
-            var CurrentDate = cars[cars.Count -1].currentDate;
             int Amount = 0;
 
-            foreach (var item in CurrentHour)
+            if (carsByDate != null)
             {
-                Hours.Add(item);
-                Amount++;
+                CarCount = SelectCarCount(carsByDate);
+                CurrentHour = SelectCurrentHours(carsByDate);
+                CurrentDate = carsByDate[carsByDate.Count - 1].CurrentDate;
+                foreach (var item in CurrentHour)
+                {
+                    Hours.Add(item);
+                    Amount++;
+                }
             }
-
+            else
+            {
+                CarCount = SelectCarCount(carsBy7Latest);
+                CurrentHour = SelectCurrentHours(carsBy7Latest);
+                CurrentDate = carsBy7Latest[carsBy7Latest.Count - 1].CurrentDate;
+                foreach (var item in CurrentHour)
+                {
+                    Hours.Add(item);
+                    Amount++;
+                }
+            }
+            
             ViewBag.CARCOUNT = CarCount;
             ViewBag.CURRENTHOUR = Hours;
             ViewBag.CURRENTDATE = CurrentDate;
             ViewBag.AMOUNT = Amount;
 
             return View();
-
         }
     }
 }
