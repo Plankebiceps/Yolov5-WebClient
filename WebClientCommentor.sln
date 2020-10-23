@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClientCommentor", "WebClient Commentor\WebClientCommentor.csproj", "{3193701E-BF67-4502-B192-43EA37C24D9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClientCommentorTests", "WebClientCommentorTests\WebClientCommentorTests.csproj", "{86C06E53-3F61-4937-AFC8-FCE925A887D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3193701E-BF67-4502-B192-43EA37C24D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3193701E-BF67-4502-B192-43EA37C24D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3193701E-BF67-4502-B192-43EA37C24D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C06E53-3F61-4937-AFC8-FCE925A887D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C06E53-3F61-4937-AFC8-FCE925A887D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C06E53-3F61-4937-AFC8-FCE925A887D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C06E53-3F61-4937-AFC8-FCE925A887D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
