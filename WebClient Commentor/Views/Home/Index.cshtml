@@ -18,7 +18,7 @@
     </div>
 
     <script>
-        var Amount = @Html.Raw(Json.Encode(ViewBag.AMOUNT));
+        var Amount = 14;
         var color = poolColors(Amount)
         var chartData = {
             labels: @Html.Raw(Json.Encode(ViewBag.CURRENTHOUR)),
@@ -141,13 +141,13 @@
 
             var Amount2 = 0;
             while (Amount2 != count) {
-                addData(chart, Amount2, hourSelect, countSelect, daySelect);
+                addData(chart, Amount2, hourSelect, countSelect);
                 Amount2++;
             }
 
             var Amount3 = 0;
             while (Amount2 != count) {
-                addData2(chart, Amount2, Amount3, hourSelect, countselect, daySelect);
+                addData2(chart, Amount2, Amount3, hourSelect, countselect);
                 Amount2++;
             }
         }
@@ -202,9 +202,11 @@
                 </div>
                 <br>
                 <div class="pull-left" style="margin-right:5px">
-                    <input type="button" value="Sorter Dato" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
+                    <input type="button" value="Sorter Dato & Timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
+                    <br>
+                    <input type="button" value="Sorter Efter Dage" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
                     <br />
-                    <input type="button" value="Sorter Dato & timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
+                    <input type="button" value="Sorter Efter Uger" onclick="loop(massPopChart, Amount, 'SortBetweenWeeks')" />
                     <br>
                 </div>
                 <!--<input type="button" value="Sorter Time" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">-->

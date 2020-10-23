@@ -56,6 +56,16 @@ namespace WebClient_Commentor.Controllers
             return Json(new { countSelect = selectCount, hourSelect = selectHour, daySelect = selectDay }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult SortBetweenWeeks()
+        {
+            List<Cars> cars = dbCars.LoopThroughWeeks();
+            IEnumerable<int> selectCount = SelectCarCount(cars);
+            IEnumerable<string> selectHour = SelectCurrentHours(cars);
+            IEnumerable<string> selectDay = SelectCurrentWeekNumber(cars);
+            return Json(new { countSelect = selectCount, hourSelect = selectHour, daySelect = selectDay }, JsonRequestBehavior.AllowGet);
+        }
+
+
         public JsonResult SortBetweenDaysAndHours(string startHour, string endHour, string startDate, string endDate)
         {
             List<Cars> cars = dbCars.getSortedCarsDayAndHours(startHour, endHour, startDate, endDate);
@@ -117,6 +127,26 @@ namespace WebClient_Commentor.Controllers
             return HourAndDate;
         }
 
+        public IEnumerable<string> SelectCurrentWeekNumber(List<Cars> cars)
+        {
+            List<string> CurrentHour = cars.Select(x => x.CurrentHour).ToList();
+            List<string> CurrentDate = cars.Select(x => x.CurrentDate).ToList();
+            IEnumerable<string> HourAndDate = new List<string>();
+
+            int index = 0;
+            while (index != CurrentDate.Count())
+            {
+                string hour = CurrentHour[index];
+                string date = CurrentDate[index];
+                string finalResult = "Uge: " + date;
+                HourAndDate = HourAndDate.Concat(new[] { finalResult });
+                index++;
+            }
+            return HourAndDate;
+        }
+
+
+
         public ActionResult Dashboard()
         {
             IEnumerable<int> CarCount = null;
@@ -140,6 +170,9 @@ namespace WebClient_Commentor.Controllers
                 foreach (var item in CurrentHour)
                 {
                     Hours.Add(item);
+                }
+                foreach (var item in CurrentDate)
+                {
                     Amount++;
                 }
             }
@@ -151,6 +184,9 @@ namespace WebClient_Commentor.Controllers
                 foreach (var item in CurrentHour)
                 {
                     Hours.Add(item);
+                }
+                foreach (var item in CurrentDate)
+                {
                     Amount++;
                 }
             }

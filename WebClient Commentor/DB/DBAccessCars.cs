@@ -215,6 +215,85 @@ namespace WebClient_Commentor.DB
             return foundCars;
         }
 
+        public List<Cars> LoopThroughWeeks()
+        {
+            List<Cars> foundCars = new List<Cars>();
+            Cars emptyCar = new Cars(0, 0, "Start", "");
+            foundCars.Add(emptyCar);
+            List<string> Weeks = GetAllWeekNumbers();
+            int index = 0;
+
+            while (index < Weeks.Count())
+                {
+                int Index = Int32.Parse(Weeks[index]);
+                    Cars car = SortByWeeks(Index);
+                    foundCars.Add(car);
+                    index++;
+                }
+
+            return foundCars;
+
+        }
+
+        public Cars SortByWeeks(int index)
+        {
+            Cars readCars = null;
+            string queryString = "SELECT SUM(CarAmount) AS CarCount, WeekNumber as CurrentDate FROM Cars, Dates WHERE Cars.DateId = Dates.DateId and WeekNumber = @index Group By WeekNumber";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            {
+                SqlParameter AddWeek = new SqlParameter("@index", index);
+                readCommand.Parameters.Add(AddWeek);
+                con.Open();
+
+                SqlDataReader carsReader = readCommand.ExecuteReader();
+
+                if (carsReader.HasRows)
+                {
+                    while (carsReader.Read())
+                    {
+                        readCars = GetCarsWithIntFromReader(carsReader);
+                    }
+                }
+            }
+            return readCars;
+        }
+
+        public List<string> GetAllWeekNumbers()
+        {
+            List<string> WeekNumbers = new List<string>();
+            int number = 0;
+            string queryString = "SELECT DISTINCT WeekNumber FROM Dates";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            {
+                con.Open();
+
+                SqlDataReader carsReader = readCommand.ExecuteReader();
+
+                if (carsReader.HasRows)
+                {
+                    while (carsReader.Read())
+                    {
+                        number = GetWeekNumberFromTable(carsReader);
+                        string myDate = number.ToString();
+                        WeekNumbers.Add(myDate);
+                    }
+                }
+            }
+            return WeekNumbers;
+        }
+
+        public int GetWeekNumberFromTable(SqlDataReader dataReader)
+        {
+            int weekNumber;
+
+            weekNumber = dataReader.GetInt32(dataReader.GetOrdinal("WeekNumber"));
+ 
+            return weekNumber;
+        }
+
         public Cars GetCarsFromReader(SqlDataReader carsReader, bool check)
         {
             Cars foundCars;
@@ -243,6 +322,21 @@ namespace WebClient_Commentor.DB
 
                 foundCars = new Cars(tempCarCount, tempcurrentdate, tempcurrenthour, tempDateId);
             }
+            return foundCars;
+        }
+
+        public Cars GetCarsWithIntFromReader(SqlDataReader carsReader)
+        {
+            Cars foundCars;
+            int tempCarCount;
+            string tempcurrentdate;
+
+            tempCarCount = carsReader.GetInt32(carsReader.GetOrdinal("CarCount"));
+            int test = carsReader.GetInt32(carsReader.GetOrdinal("CurrentDate"));
+            string myDate = test.ToString();
+            tempcurrentdate = myDate;
+
+            foundCars = new Cars(tempCarCount, tempcurrentdate, "");
             return foundCars;
         }
     }

@@ -29,6 +29,13 @@ namespace WebClient_Commentor.Models
             DateId = dateId;
         }
 
+        public Cars(int carCount, string currentdate, string currentHour)
+        {
+            CarCount = carCount;
+            CurrentDate = currentdate;
+            CurrentHour = currentHour;
+        }
+
         public Cars()
         {
 
