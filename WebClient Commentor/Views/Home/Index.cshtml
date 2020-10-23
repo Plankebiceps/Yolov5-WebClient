@@ -18,73 +18,101 @@
     </div>
 
     <script>
-        let myChart = document.getElementById('myChart').getContext('2d');
+        var Amount = @Html.Raw(Json.Encode(ViewBag.AMOUNT));
+        var color = poolColors(Amount)
+        var chartData = {
+            labels: @Html.Raw(Json.Encode(ViewBag.CURRENTHOUR)),
+            datasets: [{
+                label: '',
+                data: @Html.Raw(Json.Encode(ViewBag.CARCOUNT)),
+                backgroundColor: color,
+                borderWidth: 1,
+                borderColor: color,
+                hoverBorderWidth: 3,
+                hoverBorderColor: '#000'
+            }]
+        };
+
+        var CurrentDate =@Html.Raw(Json.Encode(ViewBag.CURRENTDATE));
+        var optionsData = {
+            title: {
+                display: true,
+                text: 'Biloptælling ' + CurrentDate,
+                fontSize: 25
+            },
+            legend: {
+                display: false,
+                position: 'right',
+                labels: {
+                    fontColor: '#000'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 0,
+                    bottom: 0,
+                    top: 0
+                }
+            },
+            tooltips: {
+                enabled: true
+            }
+        }
+
+        var ctx = document.getElementById('myChart')
 
         // Global Options
         Chart.defaults.global.defaultFontFamily = 'Lato';
         Chart.defaults.global.defaultFontSize = 18;
         Chart.defaults.global.defaultFontColor = '#777';
 
-        var CurrentDate =@Html.Raw(Json.Encode(ViewBag.CURRENTDATE));
-        var Amount = @Html.Raw(Json.Encode(ViewBag.AMOUNT));
-
-        let massPopChart = new Chart(myChart, {
+        let massPopChart = new Chart(ctx, {
             type: 'horizontalBar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-            data: {
-                labels: @Html.Raw(Json.Encode(ViewBag.CURRENTHOUR)),
-                datasets: [{
-                    label: '',
-                    data: @Html.Raw(Json.Encode(ViewBag.CARCOUNT)),
-                    //backgroundColor:'green',
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)',
-                        'rgba(255, 99, 132, 0.6)'
-                    ],
-                    borderWidth: 1,
-                    borderColor: '#777',
-                    hoverBorderWidth: 3,
-                    hoverBorderColor: '#000'
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'Biloptælling ' + CurrentDate,
-                    fontSize: 25
-                },
-                legend: {
-                    display: false,
-                    position: 'right',
-                    labels: {
-                        fontColor: '#000'
-                    }
-                },
-                layout: {
-                    padding: {
-                        left: 50,
-                        right: 0,
-                        bottom: 0,
-                        top: 0
-                    }
-                },
-                tooltips: {
-                    enabled: true
-                }
-            }
+            data: chartData,
+            options: optionsData,
         });
+
+        function change(newType) {
+
+            // Remove the old chart and all its event handles
+            if (massPopChart) {
+                massPopChart.destroy();
+            }
+
+            // Chart.js modifies the object you pass in. Pass a copy of the object so we can use the original object later
+            massPopChart = new Chart(ctx, {
+                type: newType,
+                data: chartData,
+                options: optionsData,
+            });
+        };
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function poolColors(a) {
+            var pool = [];
+            for (i = 0; i < a; i++) {
+                pool.push(getRandomColor());
+            }
+            return pool;
+        }
+
 
         function loop(chart, index, method) {
             var countSelect;
             var hourSelect;
             var str = document.getElementById("text1").value;
             var str2 = document.getElementById("text2").value;
-            var str3 = document.getElementById("text3").value;
-            var str4 = document.getElementById("text4").value;
+            var str3 = document.getElementById("datetimepicker1").value;
+            var str4 = document.getElementById("datetimepicker2").value;
             $.ajax({
                 type: 'GET',
                 dataType: 'json',
@@ -103,7 +131,7 @@
             countSelect = count;
             hourSelect = hours;
             daySelect = days;
-            var Amount = index;
+            var Amount = 100;
             while (Amount != -1) {
                 removeData(chart, Amount);
                 Amount--;
@@ -161,19 +189,69 @@
                 <input id="text2" placeholder="Slut Time">
                 <br />
                 <br>
-                <input type="button" value="Sorter Time" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" placeholder="Start Dato" id="datetimepicker1" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" placeholder="Slut Dato" id="datetimepicker2" />
+                    </div>
+                </div>
+                <br>
+                <div class="pull-left" style="margin-right:5px">
+                    <input type="button" value="Sorter Dato" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
+                    <br />
+                    <input type="button" value="Sorter Dato & timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
+                    <br>
+                </div>
+                <!--<input type="button" value="Sorter Time" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">-->
                 <br><br>
             </div>
             <div style="width: 350px; display: table-cell;">
-                <input id="text3" placeholder="Start Dato" />
-                <br />
-                <input id="text4" placeholder="Slut Dato" />
-                <br />
-                <br>
-                <input type="button" value="Sorter Dato" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
-                <br />
-                <input type="button" value="Sorter Dato & timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
-                <br>
+                @section scripts {
+                    <script>
+                        $('#datetimepicker1').datetimepicker({
+                            format: 'DD MMM YYYY'
+                        });
+                    </script>
+
+                    <script>
+                        $('#datetimepicker2').datetimepicker({
+                            format: 'DD MMM YYYY'
+                        });
+                    </script>
+
+
+                    <script>
+                        $("#line").click(function () {
+                            change('line');
+                        });
+                    </script>
+
+                    <script>
+                        $("#bar").click(function () {
+                            change('bar');
+                        });
+                    </script>
+
+                    <script>
+                        $("#horizontalBar").click(function () {
+                            change('horizontalBar');
+                        });
+                    </script>
+
+                }
+
+            <div>
+                <button id='line'>Line</button>
+                <button id='bar'>Bar</button>
+                <button id='horizontalBar'>Horisontal Bar</button>
+            </div>
+                <br/>
+                
             </div>
             <div style="width: 350px; display: table-cell;">
                 <input type="text" id="txtDelete" name="txtDelete" placeholder="Indtast ID for at slette" />
@@ -184,5 +262,8 @@
             </div>
         </div>
     </div>
+
+
+
 </body>
 </html>

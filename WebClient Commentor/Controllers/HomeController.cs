@@ -37,13 +37,15 @@ namespace WebClient_Commentor.Controllers
             return View(carsToDisplay);
         }
 
+        // Bruges ikke lige nu
+        /*
         public JsonResult SortBetweenHours(string startHour, string endHour)
         {
             List<Cars> cars = dbCars.getSortedCarsHour(startHour, endHour);
             IEnumerable<int> selectCount = SelectCarCount(cars);
             IEnumerable<string> selectHour = SelectCurrentHours(cars);
             return Json(new { countSelect = selectCount, hourSelect = selectHour }, JsonRequestBehavior.AllowGet);
-        }
+        }*/
 
         public JsonResult SortBetweenDays(string startDate, string endDate)
         {
