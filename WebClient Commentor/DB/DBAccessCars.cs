@@ -145,6 +145,37 @@ namespace WebClient_Commentor.DB
             return foundCars;
         }
 
+        public int FindLatestCarId()
+        {
+            int carsIdToDelete = 0;
+            string queryString = "SELECT MAX(CarId) FROM Cars";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            {
+                con.Open();
+
+                carsIdToDelete = (int)readCommand.ExecuteScalar();
+                
+            }
+            return carsIdToDelete;
+        }
+
+        public int InsertToDBToDelete()
+        {
+            int carsIdMade = 0;
+            string queryString = "BEGIN TRANSACTION INSERT INTO Dates(CurrentDate, WeekNumber) VALUES('02 Nov 2020', 44); INSERT INTO Cars(DateId, HourId, CarAmount) VALUES(22, '21', 500); COMMIT";
+            using(SqlConnection con = new SqlConnection(connectionString))
+            {
+                using (SqlCommand readCommand = new SqlCommand(queryString, con))
+                {
+                    con.Open();
+                    carsIdMade = readCommand.ExecuteNonQuery();
+                }
+                return carsIdMade;
+            }
+        }
+
         public void DeleteFromDB(int toDelete)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
