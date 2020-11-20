@@ -41,8 +41,8 @@ my-class-color3:active {
 }
 
 .toplogo {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 .toplogo img{
@@ -109,7 +109,6 @@ textarea {
     left: 0;
     background-color: #4470ad;
     overflow-x: hidden;
-    padding-top: 20px;
     font-size: 20px;
 }
 
