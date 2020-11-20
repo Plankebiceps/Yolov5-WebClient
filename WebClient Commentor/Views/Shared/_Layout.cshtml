@@ -1,18 +1,16 @@
 ﻿<!DOCTYPE html>
-
-
-
 <html lang="da">
 <head>
+    <meta charset="utf-8" />
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="480450238869-c423m2qmrv2o34tg40d7c6t4i755ks8n.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <title>@ViewBag.Title - Bil Optælling</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body>
     <div id="my-signin2"></div>
@@ -26,14 +24,11 @@
             console.log('Family Name: ' + profile.getFamilyName());
             console.log("Image URL: " + profile.getImageUrl());
             console.log("Email: " + profile.getEmail());
-            alert("Successfully logged in as: " + googleUser.getBasicProfile().getName());
+            //alert("Successfully logged in as: " + googleUser.getBasicProfile().getName());
             // The ID token you need to pass to your backend:
             var id_token = googleUser.getAuthResponse().id_token;
             console.log("ID Token: " + id_token);
         }
-    </script>
-
-    <script>
         function onSuccess(googleUser) {
             console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
 
@@ -44,8 +39,6 @@
         }
     </script>
 
-
-    <a href="#" onclick="signOut();">Sign out</a>
     <script>
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
@@ -56,7 +49,8 @@
         }
     </script>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-static-top">
+        
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -64,21 +58,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Bil Optælling", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div>
+                <!--<ul class="navbar">-->
+                <img class="toplogo" src="~/Content/logo.png" />
+                <br />
+                <a id="item1">@Html.ActionLink("Bil Optælling", "Index", "Home", new { area = "" }, new { @class = "my-class-color0", Style = "color: #ffffff;" })</a>
+                <br />
+                <a id="item2">@Html.ActionLink("Hjem", "Index", "Home", new { @class = "my-class-color1", Style = "color: #ffffff;" })</a>
+                <br />
+                <a id="item3">@Html.ActionLink("Om os", "About", "Home", new { @class = "my-class-color2", Style = "color: #ffffff;" })</a>
+                <br />
+                <a id="item4">@Html.ActionLink("Kontakt", "Contact", "Home", new { @class = "my-class-color3", Style = "color: #ffffff;" })</a>
+                <!--</ul>-->
+                <br />
+                <br />
                 <ul class="nav navbar-nav">
-
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    
-                </ul>
-                <ul class="nav navbar-nav" style="float: right">
+                    <!--<li><a href="#">content</a> href="#" onclick="signOut();">Sign out</a></li>-->
                     <li class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></li>
                 </ul>
             </div>
-
         </div>
     </div>
     <div class="container body-content">
@@ -97,5 +96,7 @@
     @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>

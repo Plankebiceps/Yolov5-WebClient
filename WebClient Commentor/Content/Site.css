@@ -1,6 +1,79 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-left: 200px;
+    padding-top: 20px;
+    padding-bottom: 170px;
+    margin: 20px;
+    background: #ffffff;
+}
+
+my-class-color0:active {
+    color: #808080;
+}
+my-class-color1:active {
+    color: #808080;
+}
+my-class-color2:active {
+    color: #808080;
+}
+my-class-color3:active {
+    color: #808080;
+}
+
+.item1 {
+    padding-left: 20px;
+}
+
+.item2 {
+    padding-left: 20px;
+}
+
+.item3 {
+    padding-left: 20px;
+}
+
+.item4 {
+    padding-left: 20px;
+}
+
+.navbar {
+    background: #6b76ff;
+    padding-left: 10px;
+}
+
+.toplogo {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.toplogo img{
+    max-width: 50%;
+}
+
+.navbar-nav
+.nav-link{
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 50px;
+    line-height: 50px;
+}
+
+.nav-link,
+.nav-brand {
+    color: #ffffff;
+    cursor: pointer;
+    font-family:Arial;
+}
+
+.nav-link {
+    margin-left: 1em !important;
+}
+
+.nav-link:hover {
+    color: #000;
+}
+
+-navbar-collapse {
+    justify-content: flex-end;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +94,26 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+/* The sidenav */
+.navbar {
+    padding-top: 80px;
+    display: block;
+    text-decoration: none;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #4470ad;
+    overflow-x: hidden;
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+/* Page content */
+.main {
+    margin-left: 50px; /* Same as the width of the sidenav */
 }
