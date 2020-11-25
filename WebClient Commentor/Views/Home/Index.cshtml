@@ -1,4 +1,8 @@
 ﻿<!DOCTYPE html>
+@{
+    ViewBag.Title = "Grafer for optalte biler";
+}
+<h2>Grafer for optalte biler</h2>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -209,27 +213,10 @@
                 <br>
                 <div class="pull-left" style="margin-right:5px">
                     <input type="button" value="Sorter Dato & Timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
-                    
+
                     <input type="button" value="Sorter Efter Dage" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
-                    
+
                     <input type="button" value="Sorter Efter Uger" onclick="loop(massPopChart, Amount, 'SortBetweenWeeks')" />
-                    
-                    <h2> Biloptælling Stream </h2>
-                    <div id="twitch-embed"></div>
-
-                    <!-- Load the Twitch embed script -->
-                    <script src="https://embed.twitch.tv/embed/v1.js"></script>
-
-                    <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
-                    <script type="text/javascript">
-                        new Twitch.Embed("twitch-embed", {
-                            width: 854,
-                            height: 480,
-                            channel: "floppyd1sk",
-                            // only needed if your site is also embedded on embed.example.com and othersite.example.com
-                            parent: ["embed.example.com", "othersite.example.com"]
-                        });
-                    </script>
                 </div>
                 <!--<input type="button" value="Sorter Time" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">-->
                 <br><br>

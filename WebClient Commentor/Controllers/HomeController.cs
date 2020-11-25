@@ -15,15 +15,11 @@ namespace WebClient_Commentor.Controllers
         
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     
@@ -35,6 +31,11 @@ namespace WebClient_Commentor.Controllers
             Dashboard();
             
             return View(carsToDisplay);
+        }
+
+        public ActionResult Video_stream()
+        {
+            return View();
         }
 
         // Bruges ikke lige nu

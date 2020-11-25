@@ -343,6 +343,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Sites.Master" />
     <Content Include="Views\Date\Index.cshtml" />
+    <Content Include="Views\Home\Video_stream.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
