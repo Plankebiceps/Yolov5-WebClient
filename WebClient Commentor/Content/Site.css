@@ -18,6 +18,9 @@ my-class-color2:active {
 my-class-color3:active {
     color: #808080;
 }
+my-class-color4:active {
+    color: #808080;
+}
 
 .item1 {
     padding-left: 20px;
@@ -32,6 +35,10 @@ my-class-color3:active {
 }
 
 .item4 {
+    padding-left: 20px;
+}
+
+.item5 {
     padding-left: 20px;
 }
 

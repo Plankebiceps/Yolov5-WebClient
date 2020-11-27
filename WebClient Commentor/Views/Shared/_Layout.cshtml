@@ -10,6 +10,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/Linkcolor.css" rel="stylesheet" />
 </head>
 <body>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -26,7 +27,7 @@
             console.log('Family Name: ' + profile.getFamilyName());
             console.log("Image URL: " + profile.getImageUrl());
             console.log("Email: " + profile.getEmail());
-            alert("Successfully logged in as: " + auth2.getBasicProfile().getEmail());
+            //alert("Successfully logged in as: " + auth2.getBasicProfile().getEmail());
             // The ID token you need to pass to your backend:
             var id_token = auth2.getAuthResponse().id_token;
             console.log("ID Token: " + id_token);
@@ -84,7 +85,7 @@
         </script>*@
 
 
-    <a href="#" onclick="signOut();">Sign out</a>
+    
     <script>
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
@@ -113,18 +114,22 @@
                 <br />
                 <a id="item1">@Html.ActionLink("Grafer", "Index", "Home", new { area = "" }, new { @class = "my-class-color0", Style = "color: #ffffff;" })</a>
                 <br />
-                <a id="item3">@Html.ActionLink("Om os", "About", "Home", new { @class = "my-class-color2", Style = "color: #ffffff;" })</a>
+                <a id="item2">@Html.ActionLink("Om os", "About", "Home", new { @class = "my-class-color1", Style = "color: #ffffff;" })</a>
                 <br />
-                <a id="item4">@Html.ActionLink("Kontakt", "Contact", "Home", new { @class = "my-class-color3", Style = "color: #ffffff;" })</a>
+                <a id="item3">@Html.ActionLink("Kontakt", "Contact", "Home", new { @class = "my-class-color2", Style = "color: #ffffff;" })</a>
                 <br />
-                <a id="item5">@Html.ActionLink("Live Stream", "Video_stream", "Home", new { @class = "my-class-color4", Style = "color: #ffffff;" })</a>
-                <!--</ul>-->
+                <a id="item4">@Html.ActionLink("Live Stream", "Video_stream", "Home", new { @class = "my-class-color3", Style = "color: #ffffff;" })</a>
+                <br />
+                <a id="item5">@Html.ActionLink("Kamera Oversigt", "KameraOversigt", "Home", new { @class = "my-class-color4", Style = "color: #ffffff;" })</a>
                 <br />
                 <br />
-                <ul class="nav navbar-nav">
+                <a class="nav navbar-nav">
                     <!--<li><a href="#">content</a> href="#" onclick="signOut();">Sign out</a></li>-->
                     <li class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></li>
-                </ul>
+                </a>
+                <br />
+                <br />
+                <a href="#" onclick="signOut();">Log ud</a>
             </div>
         </div>
     </div>

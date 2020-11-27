@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Grafer for optalte biler";
 }
-<h2>Grafer for optalte biler</h2>
+<h2 style="margin-left:-125px">Grafer for optalte biler</h2>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,19 +15,22 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script type="text/javascript"></script>
     <link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/Linkcolor.css" rel="stylesheet" />
 </head>
-<body>
+<body style="border: 2px solid #4470ad; margin-left: 250px; margin-right: 100px;">
+    <div style="margin-left: -125px">
+        <button id='line'>Line</button>
+        <button id='bar'>Bar</button>
+        <button id='horizontalBar'>Horisontal Bar</button>
+        <div class="container">
+            <canvas id="myChart"></canvas>
+        </div>
 
-    <button id='line'>Line</button>
-    <button id='bar'>Bar</button>
-    <button id='horizontalBar'>Horisontal Bar</button>
-    <div class="container">
-        <canvas id="myChart"></canvas>
-    </div>
 
 
 
-    <script>
+
+        <script>
         var Amount = 14;
         var color = poolColors(Amount)
         var chartData = {
@@ -67,6 +70,9 @@
             },
             tooltips: {
                 enabled: true
+            },
+            ticks: {
+                beginAtZero: true
             }
         }
 
@@ -184,95 +190,93 @@
             chart.update();
         }
 
-    </script>
-    <style type="text/css">
-        .centerDiv {
-            width: 100%;
-            margin: 0 auto;
-        }
-    </style>
-    <div class="centerDiv" style="width: 100%; display: table">
-        <div style="display: table-row">
-            <div style="width: 350px; display: table-cell;">
-                <input id="text1" placeholder="Start Time">
-                <br />
-                <input id="text2" placeholder="Slut Time">
-                <br />
-                <br>
-                <div class="row">
-                    <div class="col-md-4">
-                        <input type="text" placeholder="Start Dato" id="datetimepicker1" />
+        </script>
+        <style type="text/css">
+            .centerDiv {
+                width: 100%;
+                margin: 0 auto;
+            }
+        </style>
+        <div class="centerDiv" style="width: 100%; display: table">
+            <div style="display: table-row">
+                <div style="width: 350px; display: table-cell;">
+                    <input id="text1" placeholder="Start Time" min="0" max="23">
+                    <br />
+                    <input id="text2" placeholder="Slut Time" min="0" max="23">
+                    <br />
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Start Dato" id="datetimepicker1" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <input type="text" placeholder="Slut Dato" id="datetimepicker2" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Slut Dato" id="datetimepicker2" />
+                        </div>
                     </div>
+                    <br>
+                    <div class="pull-left" style="margin-right:5px">
+                        <input type="button" value="Sorter Dato & Timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
+                        <input type="button" value="Sorter Efter Dage" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
+                        <input type="button" value="Sorter Efter Uger" onclick="loop(massPopChart, Amount, 'SortBetweenWeeks')" />
+                    </div>
+                    <!--<input type="button" value="Sorter Time" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">-->
+                    <br><br>
                 </div>
-                <br>
-                <div class="pull-left" style="margin-right:5px">
-                    <input type="button" value="Sorter Dato & Timer" onclick="loop(massPopChart, Amount, 'SortBetweenDaysAndHours')" />
+                <div style="width: 350px; display: table-cell;">
+                    @section scripts {
+                        <script>
+                            $('#datetimepicker1').datetimepicker({
+                                format: 'DD MMM YYYY'
+                            });
+                        </script>
 
-                    <input type="button" value="Sorter Efter Dage" onclick="loop(massPopChart, Amount, 'SortBetweenDays')">
-
-                    <input type="button" value="Sorter Efter Uger" onclick="loop(massPopChart, Amount, 'SortBetweenWeeks')" />
-                </div>
-                <!--<input type="button" value="Sorter Time" onclick="loop(massPopChart, Amount, 'SortBetweenHours')">-->
-                <br><br>
-            </div>
-            <div style="width: 350px; display: table-cell;">
-                @section scripts {
-                    <script>
-                        $('#datetimepicker1').datetimepicker({
-                            format: 'DD MMM YYYY'
-                        });
-                    </script>
-
-                    <script>
-                        $('#datetimepicker2').datetimepicker({
-                            format: 'DD MMM YYYY'
-                        });
-                    </script>
+                        <script>
+                            $('#datetimepicker2').datetimepicker({
+                                format: 'DD MMM YYYY'
+                            });
+                        </script>
 
 
-                    <script>
-                        $("#line").click(function () {
-                            change('line');
-                        });
-                    </script>
+                        <script>
+                            $("#line").click(function () {
+                                change('line');
+                            });
+                        </script>
 
-                    <script>
-                        $("#bar").click(function () {
-                            change('bar');
-                        });
-                    </script>
+                        <script>
+                            $("#bar").click(function () {
+                                change('bar');
+                            });
+                        </script>
 
-                    <script>
-                        $("#horizontalBar").click(function () {
-                            change('horizontalBar');
-                        });
-                    </script>
+                        <script>
+                            $("#horizontalBar").click(function () {
+                                change('horizontalBar');
+                            });
+                        </script>
 
-                }
+                    }
 
-                <div>
+                    <div>
+
+                    </div>
+                    <br />
 
                 </div>
                 <br />
-
-            </div>
-            <br />
-            <div style="width: 350px; display: table-cell;">
-                <input type="text" id="txtDelete" name="txtDelete" placeholder="Indtast ID for at slette" />
-                <br />
-                <br>
-                <input type="button" value="Slet" id="btnSlet"
-                       onclick="location.href='@Url.Action("DeleteFromDb", "Home")?deleteText=' + document.getElementById('txtDelete').value; return false;" />
+                <div style="width: 350px; display: table-cell;">
+                    <input type="text" id="txtDelete" name="txtDelete" placeholder="Indtast ID for at slette" />
+                    <br />
+                    <br>
+                    <input type="button" value="Slet" id="btnSlet"
+                           onclick="location.href='@Url.Action("DeleteFromDb", "Home")?deleteText=' + document.getElementById('txtDelete').value; return false;" />
+                </div>
             </div>
         </div>
     </div>
-
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>

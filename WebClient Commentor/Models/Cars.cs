@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -10,6 +11,7 @@ namespace WebClient_Commentor.Models
     public int CarId { get; set; }
     public int CarCount { get; set; }
     public string CurrentDate { get; set; }
+    [Range(0, 23)]
     public string CurrentHour { get; set; }
     public int DateId { get; set; }
 

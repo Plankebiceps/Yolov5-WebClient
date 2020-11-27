@@ -5,6 +5,8 @@ using System.Web;
 using WebClient_Commentor.Models;
 using System.Data.SqlClient;
 using System.Web.ModelBinding;
+using System.Transactions;
+using System.Windows.Forms;
 
 namespace WebClient_Commentor.DB
 {
@@ -17,6 +19,7 @@ namespace WebClient_Commentor.DB
             connectionString = "data Source=.; database=CommentorDB; integrated security=true";
         }
 
+        //Denne metode får alle køretøjer.
         public List<Cars> getAllCars()
         {
             List<Cars> foundCars = null;
@@ -46,6 +49,7 @@ namespace WebClient_Commentor.DB
             return foundCars;
         }
 
+        //Gammel metode som ikke bruges, men sorteres efter valgt start time og slut time.
         public List<Cars> getSortedCarsHour(string StartHour, string EndHour)
         {
             List<Cars> foundCars = null;
@@ -56,28 +60,36 @@ namespace WebClient_Commentor.DB
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
             {
-                SqlParameter AddStartHour = new SqlParameter("@StartHour", StartHour);
-                readCommand.Parameters.Add(AddStartHour);
-                SqlParameter AddEndHour = new SqlParameter("@EndHour", EndHour);
-                readCommand.Parameters.Add(AddEndHour);
-                con.Open();
-
-                SqlDataReader carsReader = readCommand.ExecuteReader();
-
-                if (carsReader.HasRows)
+                try
                 {
-                    foundCars = new List<Cars>();
-                    foundCars.Add(emptyCar);
-                    while (carsReader.Read())
+                    SqlParameter AddStartHour = new SqlParameter("@StartHour", StartHour);
+                    readCommand.Parameters.Add(AddStartHour);
+                    SqlParameter AddEndHour = new SqlParameter("@EndHour", EndHour);
+                    readCommand.Parameters.Add(AddEndHour);
+                    con.Open();
+
+                    SqlDataReader carsReader = readCommand.ExecuteReader();
+
+                    if (carsReader.HasRows)
                     {
-                        readCars = GetCarsFromReader(carsReader, true);
-                        foundCars.Add(readCars);
+                        foundCars = new List<Cars>();
+                        foundCars.Add(emptyCar);
+                        while (carsReader.Read())
+                        {
+                            readCars = GetCarsFromReader(carsReader, true);
+                            foundCars.Add(readCars);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                return foundCars;
             }
-            return foundCars;
         }
 
+        //Denne metode vælger alle køretøjer, hvor der er angivet en start time, slut time, start dato, og slut dato, og sorter derefter.
         public List<Cars> getSortedCarsDayAndHours(string StartHour, string EndHour, string StartDate, string EndDate)
         {
             List<Cars> foundCars = null;
@@ -88,32 +100,39 @@ namespace WebClient_Commentor.DB
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
             {
-                SqlParameter AddStartHour = new SqlParameter("@StartHour", StartHour);
-                readCommand.Parameters.Add(AddStartHour);
-                SqlParameter AddEndHour = new SqlParameter("@EndHour", EndHour);
-                readCommand.Parameters.Add(AddEndHour);
-                SqlParameter AddStartDate = new SqlParameter("@StartDate", StartDate);
-                readCommand.Parameters.Add(AddStartDate);
-                SqlParameter AddEndDate = new SqlParameter("@EndDate", EndDate);
-                readCommand.Parameters.Add(AddEndDate);
-                con.Open();
-
-                SqlDataReader carsReader = readCommand.ExecuteReader();
-
-                if (carsReader.HasRows)
+                try
                 {
-                    foundCars = new List<Cars>();
-                    foundCars.Add(emptyCar);
-                    while (carsReader.Read())
+                    SqlParameter AddStartHour = new SqlParameter("@StartHour", StartHour);
+                    readCommand.Parameters.Add(AddStartHour);
+                    SqlParameter AddEndHour = new SqlParameter("@EndHour", EndHour);
+                    readCommand.Parameters.Add(AddEndHour);
+                    SqlParameter AddStartDate = new SqlParameter("@StartDate", StartDate);
+                    readCommand.Parameters.Add(AddStartDate);
+                    SqlParameter AddEndDate = new SqlParameter("@EndDate", EndDate);
+                    readCommand.Parameters.Add(AddEndDate);
+                    con.Open();
+
+                    SqlDataReader carsReader = readCommand.ExecuteReader();
+
+                    if (carsReader.HasRows)
                     {
-                        readCars = GetCarsFromReader(carsReader, true);
-                        foundCars.Add(readCars);
+                        foundCars = new List<Cars>();
+                        foundCars.Add(emptyCar);
+                        while (carsReader.Read())
+                        {
+                            readCars = GetCarsFromReader(carsReader, true);
+                            foundCars.Add(readCars);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
                 }
             }
             return foundCars;
         }
-
+        //Denne metode får køretøjerne ud fra en valgt start dato til en slut dato, og sorter dem derefter.
         public List<Cars> getSortedCarsDay(string StartDate, string EndDate)
         {
             List<Cars> foundCars = null;
@@ -161,6 +180,7 @@ namespace WebClient_Commentor.DB
             return carsIdToDelete;
         }
 
+        //Denne metode benyttes kun til test, da den tester om noget kan slettes.
         public int InsertToDBToDelete()
         {
             int carsIdMade = 0;
@@ -176,20 +196,34 @@ namespace WebClient_Commentor.DB
             }
         }
 
+        //Dog er denne metode benyttet til at slettes normalt, og ikke ligesom den ovenfor.
         public void DeleteFromDB(int toDelete)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            System.IO.StringWriter writer = new System.IO.StringWriter();
+            try
             {
-                con.Open();
-                using (SqlCommand cmdDeleteCars = con.CreateCommand())
+                using (TransactionScope scope = new TransactionScope())
                 {
-                    cmdDeleteCars.CommandText = "DELETE FROM Cars WHERE Cars.CarId=@CarId";
-                    cmdDeleteCars.Parameters.AddWithValue("CarId", toDelete);
-                    cmdDeleteCars.ExecuteNonQuery();
+                    using (SqlConnection con = new SqlConnection(connectionString))
+                    {
+                        con.Open();
+                        using (SqlCommand cmdDeleteCars = con.CreateCommand())
+                        {
+                            cmdDeleteCars.CommandText = "DELETE FROM Cars WHERE Cars.CarId=@CarId";
+                            cmdDeleteCars.Parameters.AddWithValue("CarId", toDelete);
+                            cmdDeleteCars.ExecuteNonQuery();
+                        }
+                    }
+                    scope.Complete();
                 }
+            }
+            catch (TransactionAbortedException ex)
+            {
+                writer.WriteLine("TransactionAbortedException Message: {0}", ex.Message);
             }
         }
 
+        //Denne metode får alle biler, som sådan set nu er alle køretøjer som den henter fra seneste dato.
         public List<Cars> GetAllCarsByLatestDate()
         {
             List<Cars> foundCars = null;
@@ -218,6 +252,7 @@ namespace WebClient_Commentor.DB
             return foundCars;
         }
 
+        //Denne metode henter de 7 seneste timer med biler.
         public List<Cars> Get7LatestCars()
         {
             List<Cars> foundCars = null;
@@ -246,6 +281,7 @@ namespace WebClient_Commentor.DB
             return foundCars;
         }
 
+        //En loop igennem uger.
         public List<Cars> LoopThroughWeeks()
         {
             List<Cars> foundCars = new List<Cars>();
@@ -266,6 +302,7 @@ namespace WebClient_Commentor.DB
 
         }
 
+        //Sorter efter uger.
         public Cars SortByWeeks(int index)
         {
             Cars readCars = null;
@@ -291,6 +328,7 @@ namespace WebClient_Commentor.DB
             return readCars;
         }
 
+        //Får alle ugens numre.
         public List<string> GetAllWeekNumbers()
         {
             List<string> WeekNumbers = new List<string>();
