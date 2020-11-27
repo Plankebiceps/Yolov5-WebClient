@@ -62,8 +62,8 @@ namespace WebClient_Commentor.App_Start
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "683184351620-ud0vlg721072btak0eg7tv1mirkjuj0m.apps.googleusercontent.com",
-                ClientSecret = "VDFa6bvQWU5djDKtYjoewYGx"
+                ClientId = "480450238869-c423m2qmrv2o34tg40d7c6t4i755ks8n.apps.googleusercontent.com",
+                ClientSecret = "v0SQQ9w3oWKAWhTnizVp5Au7"
             });
         }
     }
