@@ -23,10 +23,10 @@
 
             var profile = auth2.getBasicProfile();
             console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-            console.log('Full Name: ' + profile.getName());
-            console.log('Given Name: ' + profile.getGivenName());
-            console.log('Family Name: ' + profile.getFamilyName());
-            console.log("Image URL: " + profile.getImageUrl());
+            console.log('Fulde Navn: ' + profile.getName());
+            console.log('Givent Navn: ' + profile.getGivenName());
+            console.log('Familie Navn: ' + profile.getFamilyName());
+            console.log("Billede URL: " + profile.getImageUrl());
             console.log("Email: " + profile.getEmail());
             //alert("Successfully logged in as: " + auth2.getBasicProfile().getEmail());
             // The ID token you need to pass to your backend:
@@ -37,17 +37,17 @@
             xhr.open('POST', 'https://localhost:44306/signin-google');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function () {
-                console.log('Signed in as: ' + xhr.responseText);
+                console.log('Logget ind som: ' + xhr.responseText);
             };
             xhr.send('idtoken=' + id_token);
     
         function onSuccess(auth2) {
-            console.log('Logged in as: ' + auth2.getBasicProfile().getName());
-            alert("Successfully logged in as: " + auth2.getBasicProfile().getName());
+            console.log('Logget ind som: ' + auth2.getBasicProfile().getName());
+            alert("Du er nu logget ind som: " + auth2.getBasicProfile().getName());
         }
         function onFailure(error) {
             console.log(error);
-            alert("An error has occured");
+            alert("Der er sket en fejl");
         }
     </script>
 
@@ -56,12 +56,12 @@
             if (auth2.isSignedIn) {
                 var profile = auth2.currentUser.get().getBasicProfile();
                 console.log('ID: ' + profile.getId());
-                console.log('Full Name: ' + profile.getName());
-                console.log('Given Name: ' + profile.getGivenName());
-                console.log('Family Name: ' + profile.getFamilyName());
-                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Fulde Navn: ' + profile.getName());
+                console.log('Givent Navn: ' + profile.getGivenName());
+                console.log('Familie Navn: ' + profile.getFamilyName());
+                console.log('Billede URL: ' + profile.getImageUrl());
                 console.log('Email: ' + profile.getEmail());
-                alert('Successfully logged in as :' + auth2.currentUser().getEmail());
+                alert('Du er nu logget ind som: ' + auth2.currentUser().getEmail());
             }
         }
     </script>
@@ -91,8 +91,8 @@
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                console.log('User signed out.');
-                alert("Logged ud")
+                console.log('Bruger er logget ud.');
+                alert("Logget ud")
             });
         }
     </script>
