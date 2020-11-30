@@ -43,6 +43,11 @@ namespace WebClient_Commentor.Controllers
             return View();
         }
 
+        public ActionResult LiveStreamVideo()
+        {
+            return View();
+        }
+
         // Bruges ikke lige nu
         /*
         public JsonResult SortBetweenHours(string startHour, string endHour)

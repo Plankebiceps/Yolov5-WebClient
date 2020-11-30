@@ -194,6 +194,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Linkcolor.css" />
     <Content Include="Content\logo.png" />
+    <Content Include="Content\OpenLayers V6.4.3\KameraIcon.png" />
     <Content Include="Content\OpenLayers V6.4.3\ol.css" />
     <Content Include="Content\OpenLayers V6.4.3\ol.js" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -323,6 +324,10 @@
     <Content Include="Content\OpenLayers V6.4.3\ol.css.map" />
     <Content Include="Content\OpenLayers V6.4.3\ol.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Chart.css" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.css" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -356,6 +361,7 @@
     <Content Include="Views\Date\Index.cshtml" />
     <Content Include="Views\Home\Video_stream.cshtml" />
     <Content Include="Views\Home\KameraOversigt.cshtml" />
+    <Content Include="Views\Home\LiveStreamVideo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

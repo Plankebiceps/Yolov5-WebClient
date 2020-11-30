@@ -8,14 +8,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--  VIGTIGT  -->
+    <!-- Der er mangel på Chart.min.js inde på selve projektet, for lige nu henter den selve javascriptet fra en database, hvilket ikke ville kunne fungere på en intranet -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>-->
+    <script src="~/Scripts/Chart.min.js"></script>
+    <!--  bootstrap.min.css er også fikset nu, skal testes senere, for at se om det overhovedet virker  -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <title>My Chart.js Chart</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script type="text/javascript"></script>
     <link href="~/Content/Site.css" rel="stylesheet" />
-<link href="~/Content/Linkcolor.css" rel="stylesheet" />
+    <link href="~/Content/Linkcolor.css" rel="stylesheet" />
 </head>
 <body style="border: 2px solid #4470ad; margin-left: 250px; margin-right: 100px;">
     <div style="margin-left: -125px">
@@ -25,10 +30,6 @@
         <div class="container">
             <canvas id="myChart"></canvas>
         </div>
-
-
-
-
 
         <script>
         var Amount = 14;
@@ -239,7 +240,6 @@
                             });
                         </script>
 
-
                         <script>
                             $("#line").click(function () {
                                 change('line');
@@ -257,7 +257,6 @@
                                 change('horizontalBar');
                             });
                         </script>
-
                     }
 
                     <div>
