@@ -32,7 +32,7 @@
         </div>
 
         <script>
-        var Amount = 14;
+        var Amount = 1000;
         var color = poolColors(Amount)
         var chartData = {
             labels: @Html.Raw(Json.Encode(ViewBag.CURRENTHOUR)),
@@ -105,13 +105,21 @@
             });
         };
 
+        function getRandomNumber(Size) {
+            random = Math.floor(Math.random() * Size)
+            return random
+        }
+
         function getRandomColor() {
-            var letters = '0123456789ABCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
+            var colors = ["#C868A6", "#E5C9E8", "#2C1825", "#C139D2", "#CBD400", "#6A804A", "#CA68A6"];
+            OldNumber = 0
+            NewNumber = 0
+            do {
+                NewNumber = getRandomNumber(colors.length)
+            } while (OldNumber == NewNumber)
+            OldNumber = NewNumber
+            returnedColor = colors[NewNumber]
+            return returnedColor;
         }
 
         function poolColors(a) {
@@ -121,7 +129,6 @@
             }
             return pool;
         }
-
 
         function loop(chart, index, method) {
             var countSelect;

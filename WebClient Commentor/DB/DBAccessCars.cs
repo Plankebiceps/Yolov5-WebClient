@@ -26,7 +26,7 @@ namespace WebClient_Commentor.DB
             Cars readCars = null;
             Cars emptyCar = new Cars(0, 0, "Start", "");
 
-            string queryString = "SELECT Cars.CarId, Cars.CarAmount, Dates.CurrentDate, Hours.HourId from Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours ON Cars.HourId=Hours.HourId";
+            string queryString = "SELECT Cars.CarId, Cars.Amount, Dates.CurrentDate, Hours.HourId from Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours ON Cars.HourId=Hours.HourId";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -55,7 +55,7 @@ namespace WebClient_Commentor.DB
             List<Cars> foundCars = null;
             Cars readCars = null;
             Cars emptyCar = new Cars(0, 0, "Start", "");
-            string queryString = "SELECT Cars.CarId, Dates.CurrentDate, Hours.HourId, Cars.CarAmount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId WHERE Hours.HourId BETWEEN @StartHour AND @EndHour";
+            string queryString = "SELECT Cars.CarId, Dates.CurrentDate, Hours.HourId, Cars.Amount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId WHERE Hours.HourId BETWEEN @StartHour AND @EndHour";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -95,7 +95,7 @@ namespace WebClient_Commentor.DB
             List<Cars> foundCars = null;
             Cars readCars = null;
             Cars emptyCar = new Cars(0, 0, "Start", "");
-            string queryString = "SELECT Cars.CarId, Dates.CurrentDate, Hours.HourId, Cars.CarAmount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId WHERE Hours.HourId BETWEEN @StartHour AND @EndHour AND Dates.CurrentDate BETWEEN @StartDate AND @EndDate";
+            string queryString = "SELECT Cars.CarId, Dates.CurrentDate, Hours.HourId, Cars.Amount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId WHERE Hours.HourId BETWEEN @StartHour AND @EndHour AND Dates.CurrentDate BETWEEN @StartDate AND @EndDate";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -138,7 +138,7 @@ namespace WebClient_Commentor.DB
             List<Cars> foundCars = null;
             Cars readCars = null;
             Cars emptyCar = new Cars(0, 0, "Start", "");
-            string queryString = "SELECT Cars.DateId AS DateId, Dates.CurrentDate AS CurrentDate, SUM(CarAmount) AS CarCount FROM Cars INNER JOIN Dates ON Cars.DateId = Dates.DateId WHERE Dates.CurrentDate BETWEEN @StartDate AND @EndDate GROUP BY Cars.DateId, Dates.CurrentDate";
+            string queryString = "SELECT Cars.DateId AS DateId, Dates.CurrentDate AS CurrentDate, SUM(Amount) AS CarCount FROM Cars INNER JOIN Dates ON Cars.DateId = Dates.DateId WHERE Dates.CurrentDate BETWEEN @StartDate AND @EndDate GROUP BY Cars.DateId, Dates.CurrentDate";
             using(SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
             {
@@ -184,7 +184,7 @@ namespace WebClient_Commentor.DB
         public int InsertToDBToDelete()
         {
             int carsIdMade = 0;
-            string queryString = "BEGIN TRANSACTION INSERT INTO Dates(CurrentDate, WeekNumber) VALUES('02 Nov 2020', 44); INSERT INTO Cars(DateId, HourId, CarAmount) VALUES(22, '21', 500); COMMIT";
+            string queryString = "BEGIN TRANSACTION INSERT INTO Dates(CurrentDate, WeekNumber) VALUES('02 Nov 2020', 44); INSERT INTO Cars(DateId, HourId, Amount) VALUES(22, '21', 500); COMMIT";
             using(SqlConnection con = new SqlConnection(connectionString))
             {
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -228,7 +228,7 @@ namespace WebClient_Commentor.DB
         {
             List<Cars> foundCars = null;
             Cars readCars = null;
-            string queryString = "SELECT Cars.CarId, Dates.CurrentDate, Hours.HourId, Cars.CarAmount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId WHERE Dates.DateId=(SELECT max(Dates.DateId) FROM Dates)";
+            string queryString = "SELECT Cars.CarId, Dates.CurrentDate, Hours.HourId, Cars.Amount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId WHERE Dates.DateId=(SELECT max(Dates.DateId) FROM Dates)";
             Cars emptyCar = new Cars(0, 0, "Start", "");
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -257,7 +257,7 @@ namespace WebClient_Commentor.DB
         {
             List<Cars> foundCars = null;
             Cars readCars = null;
-            string queryString = "WITH SortedSeven AS (SELECT TOP 7 CarId, Dates.CurrentDate, Hours.HourId, CarAmount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId ORDER BY CarId DESC) SELECT * FROM SortedSeven ORDER BY CarId";
+            string queryString = "WITH SortedSeven AS (SELECT TOP 7 CarId, Dates.CurrentDate, Hours.HourId, Amount FROM Cars INNER JOIN Dates ON Cars.DateId=Dates.DateId INNER JOIN Hours On Cars.HourId=Hours.HourId ORDER BY CarId DESC) SELECT * FROM SortedSeven ORDER BY CarId";
             Cars emptyCar = new Cars(0, 0, "Start", "");
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -306,7 +306,7 @@ namespace WebClient_Commentor.DB
         public Cars SortByWeeks(int index)
         {
             Cars readCars = null;
-            string queryString = "SELECT SUM(CarAmount) AS CarCount, WeekNumber as CurrentDate FROM Cars, Dates WHERE Cars.DateId = Dates.DateId and WeekNumber = @index Group By WeekNumber";
+            string queryString = "SELECT SUM(Amount) AS CarCount, WeekNumber as CurrentDate FROM Cars, Dates WHERE Cars.DateId = Dates.DateId and WeekNumber = @index Group By WeekNumber";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -376,7 +376,7 @@ namespace WebClient_Commentor.DB
             {
                 
                 tempCarId = carsReader.GetInt32(carsReader.GetOrdinal("CarId"));
-                tempCarCount = carsReader.GetInt32(carsReader.GetOrdinal("CarAmount"));
+                tempCarCount = carsReader.GetInt32(carsReader.GetOrdinal("Amount"));
                 tempcurrentdate = carsReader.GetString(carsReader.GetOrdinal("CurrentDate"));
                 tempcurrenthour = carsReader.GetString(carsReader.GetOrdinal("HourId"));
 
